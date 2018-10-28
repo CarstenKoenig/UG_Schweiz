@@ -6,7 +6,7 @@ open NUnit.Framework
 open NUnit.Framework
 open NUnit.Framework
 
-[<TestFixture>]
+[<Ignore("needs to be implemented")>]
 type ``Lexer recognizes tokens`` () =
     let lexer = lex
 

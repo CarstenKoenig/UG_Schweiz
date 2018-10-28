@@ -11,32 +11,13 @@ type AST =
   | Write
   | Loop of AST list
 
-let private parseToken =
-  function
-  | IncrToken -> Incr
-  | DecrToken -> Decr
-  | MoveLeftToken -> MoveLeft
-  | MoveRightToken -> MoveRight
-  | ReadToken -> Read
-  | WriteToken -> Write 
-  | LoopEndToken | LoopStartToken -> failwith "loops not simple"
+let private parseToken : Token -> AST =
+  failwith "implement me"
 
-let rec private parseList acc =
-  function
-  | [] -> Ok (List.rev acc, [])
-  | (LoopStartToken :: rest) ->
-    match parseList [] rest with
-    | Error _ as err -> err
-    | Ok (loopBody, rest') ->
-      parseList (Loop loopBody :: acc) rest'
-  | (LoopEndToken :: rest) ->
-    Ok (List.rev acc, rest)
-  | (token :: rest) ->
-    parseList (parseToken token :: acc) rest
+let rec private parseList (acc : AST list) 
+  : Token list -> Result<AST list * Token list, string> =
+  failwith "implement me"
 
 
 let parse (tokens : Token seq) : Result<AST list, string> =
-  tokens
-  |> Seq.toList
-  |> parseList []
-  |> Result.map fst
+  failwith "implement me"
