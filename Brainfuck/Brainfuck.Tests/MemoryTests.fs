@@ -3,7 +3,7 @@ namespace Tests
 open NUnit.Framework
 open Brainfuck.Interpreter.Memory
 
-[<TestFixture>]
+[<Ignore("needs to be implemented")>]
 type ``Memory tests`` () =
 
     [<Test>]
