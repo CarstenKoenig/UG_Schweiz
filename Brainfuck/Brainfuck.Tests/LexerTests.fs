@@ -2,9 +2,6 @@ namespace Tests
 
 open NUnit.Framework
 open Brainfuck.Interpreter.Lexer
-open NUnit.Framework
-open NUnit.Framework
-open NUnit.Framework
 
 [<TestFixture>]
 type ``Lexer recognizes tokens`` () =
