@@ -59,18 +59,18 @@ let wort = "Hallo"
 let wieVoid = ()
 
 
+
+// Gotchas
+
+
+let hallo = "Hallo, " + name
+let name = "Carsten"
+
+
+
+
+
 let fZahl2 = zahl + 42.0
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -85,13 +85,10 @@ let lambda = fun x -> x + x
 
 
 
-
-
-// Vorsicht
+// Gotchas
 
 let hey x =
   "Hey " + x.ToUpper() + "!"
-
 
 
 
@@ -117,13 +114,6 @@ let composition =
 
 
 
-// Vorsicht
-
-let g x = f (x+3)
-let f x = x + x
-
-
-
 
 
 
@@ -132,9 +122,11 @@ let f x = x + x
 // mehrere Argumente
 
 
+
 // Tupel
 let plusT (x,y) =
   x + y
+
 
 
 // curry
@@ -174,6 +166,9 @@ printfn "%s" DateTime.Now.ToString()
 
 let mystery (f : 'a -> () -> 'b) (b : 'b) : 'a =
   failwith "implement me"
+
+
+
 
 
 
@@ -229,7 +224,7 @@ let fizzBuzz (n : int) : string =
 // Rekursion
 
 
-let rec fib n = 
+let fib n = 
   if n < 0 then failwith "only non-negative values valid"
   if n <= 1 then n else
   fib (n-1) + fib (n-2)
@@ -237,12 +232,13 @@ let rec fib n =
 
 
 
+let even x =
+  if x = 0 then true
+  else odd (x-1)
 
-
-
-
-
-
+let odd x =
+  if x = 0 then false
+  else even (x-1)
 
 
 
@@ -256,17 +252,6 @@ let rec fib n =
 
 
 type Zahl = int
-
-type Generisch<'a> = 'a
-
-type 'a Generisch2 = 'a
-
-let x : int Generisch = 5
-
-
-
-
-
 
 
 
