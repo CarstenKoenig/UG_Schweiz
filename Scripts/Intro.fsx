@@ -53,23 +53,14 @@ let fZahl = 42.42
 
 let wort = "Hallo"
 
+
+
+
 let wieVoid = ()
 
 
+let fZahl2 = zahl + 42.0
 
-// explizite Umwandlung
-
-let fZahl2 = double zahl + 42.0
-
-
-
-
-
-
-
-// Vorsicht
-
-zahl * 42.0
 
 
 
@@ -88,8 +79,6 @@ zahl * 42.0
 // Funktionen
 
 let lambda = fun x -> x + x
-
-let lambda' x = x + x
 
 
 
@@ -114,14 +103,14 @@ let hey x =
 
 // Pipe
 
-let zahl2 =
+let mitPipe zahl =
   zahl
-  |> lambda
-  |> lambda'
+  |> fun x -> x * x + 3.0
+  |> sqrt
 
 
-let zahl2' =
-  (lambda >> lambda') zahl
+let composition =
+  (fun x -> x * x + 3.0) >> sqrt
 
 
 
@@ -143,17 +132,21 @@ let f x = x + x
 // mehrere Argumente
 
 
-
-let plus x y = x + y
-
-
-// (curry)
-let plusWAT = 
-  fun x -> (fun y -> x + y)
+// Tupel
+let plusT (x,y) =
+  x + y
 
 
+// curry
+let plus x y = 
+  x + y
+  // fun x -> (fun y -> x + y)
 
 
+
+
+
+// partial application
 let plus10 = plus 10
 
 
@@ -176,9 +169,19 @@ printfn "%s" DateTime.Now.ToString()
 
 
 
+// Übung
+
+
+let mystery (f : 'a -> () -> 'b) (b : 'b) : 'a =
+  failwith "implement me"
+
+
+
+
 // if
 
-let isAnswer = if zahl < 42 then "not the answer"
+let isAnswer =
+  if zahl < 42 then "not the answer"
 
 
 
@@ -246,7 +249,7 @@ let rec fib n =
 
 
 
-
+(************************************************************************)
 // TYPEN
 
 // Type Alias
@@ -276,14 +279,13 @@ let x : int Generisch = 5
 
 
 
-
-
 // Tuple
 
 let tupel = (zahl, wort)
 
 
 
+// pattern-match (Dekonstruktion)
 let (z,w) = tupel
 
 
@@ -293,6 +295,8 @@ let patterMatch t =
   | (42, "Hallo") -> "freundliche Antwort auf Alles"
   | (42, _)       -> "Antwort auf Alles"
   | (_, "Hallo")  -> "Begrüßung"
+  | (z,w) when z % 2 = 0 
+                  -> sprintf "gerade Zahl %d mit Wort %s" z w
   | (z,w)         -> sprintf "Zahl %d mit Wort %s" z w
 
 
@@ -328,6 +332,9 @@ let uncurry (f : 'a -> 'b -> 'c) : ('a * 'b -> 'c) =
 
 let zahlen = 1 :: 2 :: 3 :: 4 :: 5 :: []
 
+let mitNull =
+  0 :: zahlen
+
 let zahlen2 = [1,2,3,4,5]
 
 let zahlen3 = [1..10]
@@ -343,14 +350,15 @@ let kopf (ls : 'a list) : 'a =
 
 // Übung:
 
-let rec concat (xs : 'a list) (ys : 'a list) : 'a list =
+let rec append (xs : 'a list) (ys : 'a list) : 'a list =
   failwith "implement me"
 
 
 
 
 
-
+let appended =
+  zahlen @ [6..10]
 
 
 
@@ -384,3 +392,34 @@ let rec eval expr =
   | Zahl n     -> n
   | Plus (a,b) -> eval a + eval b
 
+
+
+// Options
+
+let nichts : int option = None
+let etwas = Some 5
+
+
+let safeHead xs =
+  match xs with
+  | []     -> None
+  | (x::_) -> Some x
+
+
+let doppelterKopf xs =
+  match safeHead xs with
+  | None   -> "leer"
+  | Some x -> string x
+
+
+
+type Positiv = 
+  private | Positiv of int
+  member this.Value =
+    match this with
+    | Positiv n -> n
+  override this.ToString () =
+    this.Value.ToString ()
+  static member Create n =
+    if n <= 0 then None else
+    Some n
