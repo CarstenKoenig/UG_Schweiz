@@ -7,16 +7,27 @@ open Brainfuck.Interpreter.Memory
 open Brainfuck.Interpreter.Parser
 
 let private write (b : byte) =
-  failwith "implement me"
+  printf "%c" (char b)
 
 let private read () =
-  failwith "implement me"
+  byte <| System.Console.Read ()
 
 let rec private interpretOneWith (mem : Memory) =
-  failwith "implement me"
+  function
+  | Incr      -> mem.Incr ()
+  | Decr      -> mem.Decr ()
+  | MoveLeft  -> mem.MoveLeft ()
+  | MoveRight -> mem.MoveRight ()
+  | Write     -> write mem.CurrentValue
+  | Read      -> mem.CurrentValue <- read ()
+  | Loop ins  ->
+    while mem.CurrentValue <> 0uy do
+      interpretWith mem ins
 
 and private interpretWith (mem : Memory) (ast : AST seq) =
-  failwith "implement me"
+  Seq.iter (interpretOneWith mem) ast
 
 let interpret (input : string) =
-  failwith "implement me"
+  lex input
+  |> parse
+  |> Result.map (interpretWith <| Memory ())

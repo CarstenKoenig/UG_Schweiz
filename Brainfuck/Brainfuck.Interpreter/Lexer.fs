@@ -11,4 +11,15 @@ type Token =
   | LoopEndToken
 
 let lex (input : string) : Token seq =
-  failwith "implement me"
+  let readChar = function
+    | '+' -> Some IncrToken
+    | '-' -> Some DecrToken
+    | '>' -> Some MoveRightToken
+    | '<' -> Some MoveLeftToken
+    | ',' -> Some ReadToken
+    | '.' -> Some WriteToken
+    | '[' -> Some LoopStartToken
+    | ']' -> Some LoopEndToken
+    | _   -> None
+  input
+  |> Seq.choose readChar

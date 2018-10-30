@@ -3,16 +3,20 @@ module Brainfuck.Interpreter.Memory
 open System.Collections.Generic
 
 type Memory() =
+  let mutable pointer = 0
+  let cells = System.Collections.Generic.Dictionary<int, byte>()
+
   member __.MoveRight () =
-    failwith "implement me"
+    pointer <- pointer + 1
   member __.MoveLeft () =
-    failwith "implement me"
+    pointer <- pointer - 1
   member __.CurrentValue 
     with get () =
-      failwith "implement me"
-    and set v = 
-      failwith "implement me"
+      match cells.TryGetValue pointer with
+      | (false, _) -> 0uy
+      | (true, v)  -> v
+    and set v = cells.[pointer] <- v    
   member this.Incr () =
-    failwith "implement me"
+    this.CurrentValue <- this.CurrentValue + 1uy
   member this.Decr () =
-    failwith "implement me"
+    this.CurrentValue <- this.CurrentValue - 1uy

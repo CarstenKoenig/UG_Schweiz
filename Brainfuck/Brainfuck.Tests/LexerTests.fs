@@ -3,7 +3,7 @@ namespace Tests
 open NUnit.Framework
 open Brainfuck.Interpreter.Lexer
 
-[<Ignore("needs to be implemented")>]
+[<TestFixture>]
 type ``Lexer recognizes tokens`` () =
     let lexer = lex
 

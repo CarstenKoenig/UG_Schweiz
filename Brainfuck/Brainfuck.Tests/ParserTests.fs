@@ -4,7 +4,7 @@ open NUnit.Framework
 open Brainfuck.Interpreter.Lexer
 open Brainfuck.Interpreter.SimpleParser
 
-[<Ignore("needs to be implemented")>]
+[<TestFixture>]
 type ``Parser tests`` () =
     let parse inp = 
       lex inp
