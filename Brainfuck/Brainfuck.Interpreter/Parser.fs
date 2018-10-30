@@ -40,6 +40,14 @@ module private Combinators =
       | Ok (a,rest) -> (f a) rest
 
 
+  type ParserBuilder() =
+    member __.Bind (m,f) = bind f m
+    member __.Return (x) = succeed x
+    member __.Delay (f) = f ()
+
+  let parse = ParserBuilder()
+
+
   let (>>=) = (fun p f -> bind f p)
 
   let (>*>) ign p = ign >>= (fun _ -> p)
@@ -67,7 +75,13 @@ module private Combinators =
 
 
   let between (pl : Parser<'l>) (p : Parser<'a>) (pr : Parser<'r>) : Parser<'a> =
-    pl >*> p <*< pr
+    // pl >*> p <*< pr
+    parse {
+      let! _ = pl
+      let! res = p
+      let! _ = pr
+      return res
+    }
 
 
   let instruction : Parser<AST> =
